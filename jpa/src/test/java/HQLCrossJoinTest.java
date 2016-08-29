@@ -21,7 +21,6 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 
 public class HQLCrossJoinTest {
-    //    private static EntityManagerProvider provider = new EntityManagerProvider(pm);
     private EntityManagerFactory entityManagerFactory;
     private EntityManager entityManager;
     private SessionFactoryImpl sessionFactory;
