@@ -46,10 +46,10 @@ public class HQLCrossJoinTest {
     private void createEmployAndPhones( ) {
         Employee employee1 = createEmployee(1L, "Jun", "Ouyang", "IT");
         Employee employee2 = createEmployee(2L, "Huirong", "Zhang", "Consultant");
-        Phone phone = createPhone(employee1, 1L, "6502005389");
-        Phone phone1 = createPhone(employee1, 2L, "6502005390");
-        Phone phone2 = createPhone(employee2, 3L, "6502005391");
-        Phone phone3 = createPhone(employee2, 4L, "6502005392");
+        createPhone(employee1, 1L, "6502005389");
+        createPhone(employee1, 2L, "6502005390");
+        createPhone(employee2, 3L, "6502005391");
+        createPhone(employee2, 4L, "6502005392");
         createClass("Compute Science");
         createClass("Stock investment");
         createClass("Education");
