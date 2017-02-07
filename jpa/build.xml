@@ -1,0 +1,69 @@
+<project default="test">
+    <!--<taskdef resource="net/sf/antcontrib/antcontrib.properties">-->
+        <!--<classpath>-->
+            <!--<pathelement location="/Users/jun.ouyang/source/codebase2/thirdparty/lib/ant-contrib/ant-contrib-1.0b3.jar" />-->
+        <!--</classpath>-->
+    <!--</taskdef>-->
+
+    <property name="escaped.value" value="kaka"/>
+    <property file="test.properties"/>
+
+    <property name="controller.info" value="controller-info.xml"/>
+    <target name="test">
+        <!--<myreplace/>-->
+        <!--<setvalue file="${controller.info}" tag='use-encrypted-credentials' value='true'/>-->
+        <!--<echo>${test1}</echo>-->
+        <!--<myreplace match="\" replace="\\\\" string="ka\ka\ka"/>-->
+        <setvalue file="${controller.info}" tag="credential-store-filename" value="C:\AppDynamics\43Controller.Build10710\bin\setup.xml"/>
+        <setvalue file="${controller.info}" tag="credential-store-password" value="C:\AppDynamics\43Controller.Build10710"/>
+        <!--<setvalue file="${controller.info}" tag="account-access-key" value="${encrypted-system-account-AccessKey}"/>-->
+    </target>
+
+    <property name="tmp.placeholder" value="{{TMP_VALUE}}"/>
+    <macrodef name="setvalue">
+        <attribute name="file"/>
+        <attribute name="tag"/>
+        <attribute name="value"/>
+        <sequential>
+            <!--<echo>${@{property}}</echo>-->
+            <!--<local name="escaped.value"/>-->
+            <!--<property name="escaped.value" value="@{value}"/>-->
+            <!--<var name="@{property}" unset="true"/>-->
+            <!--<propertyregex-->
+                    <!--property="escaped.value"-->
+                    <!--input="@{value}"-->
+                    <!--regexp="\\"-->
+                    <!--replace="\\\\\\\\\\\\\\\\"-->
+                    <!--global="true"/>-->
+            <!--<string.replace string="@{value}" property="escaped.value" match="\" replace="\\\\"/>-->
+            <!--<echo>@{value}</echo>-->
+            <!--<echo>${escaped.value}</echo>-->
+
+            <!--<echo>@{value}</echo>-->
+            <replaceregexp file="@{file}"
+                           match='&lt;@{tag}&gt;[^&lt;]*&lt;/@{tag}&gt;|&lt;@{tag}/&gt;'
+                           replace='&lt;@{tag}&gt;${tmp.placeholder}&lt;/@{tag}&gt;'/>
+            <replace file="@{file}" token="${tmp.placeholder}" value="@{value}"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="string.replace">
+        <attribute name="string"/>
+        <attribute name="match"/>
+        <attribute name="replace"/>
+        <attribute name="property"/>
+        <sequential>
+            <local name="src"/>
+            <property name="src" value="@{string}"/>
+            <loadresource property="@{property}">
+                <propertyresource name="src"/>
+                <filterchain>
+                    <tokenfilter>
+                        <filetokenizer/>
+                        <replacestring from="@{match}" to="@{replace}"/>
+                    </tokenfilter>
+                </filterchain>
+            </loadresource>
+        </sequential>
+    </macrodef>
+</project>
